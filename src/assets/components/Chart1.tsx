@@ -5,6 +5,8 @@ import * as d3 from "d3";
 import { Tooltip } from "react-tooltip";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { BACKEND_URL } from "../constants";
+
 export default function Chart1({ month }: { month: string }) {
   const { user, getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState();
@@ -38,7 +40,7 @@ export default function Chart1({ month }: { month: string }) {
           },
         });
         await axios
-          .get("http://localhost:3000/days/users/" + user.sub.substring(6), {
+          .get(BACKEND_URL + "/days/users/" + user.sub.substring(6), {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

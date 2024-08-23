@@ -11,6 +11,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Datepicker from "react-tailwindcss-datepicker";
 
+import { BACKEND_URL } from "../constants";
+
 function EditDay() {
   const [description, setDescription] = useState("");
   const [insights, setInsights] = useState();
@@ -43,14 +45,11 @@ function EditDay() {
           },
         });
         await axios
-          .get(
-            "http://localhost:3000/insights/users/" + user.sub.substring(6),
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .get(BACKEND_URL + "/insights/users/" + user.sub.substring(6), {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((res) => {
             setInsights(res.data[0]);
           });
@@ -67,7 +66,7 @@ function EditDay() {
           },
         });
         await axios
-          .get("http://localhost:3000/days/" + dayId, {
+          .get(BACKEND_URL + "/days/" + dayId, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -109,7 +108,7 @@ function EditDay() {
           },
         });
         await axios
-          .get("http://localhost:3000/days/users/" + user.sub.substring(6), {
+          .get(BACKEND_URL + "/days/users/" + user.sub.substring(6), {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -158,7 +157,7 @@ function EditDay() {
         };
         terminal.log("we are submitting: ", data);
         await axios
-          .put("http://localhost:3000/days/update", data, {
+          .put(BACKEND_URL + "/days/update", data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

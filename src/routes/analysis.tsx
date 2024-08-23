@@ -9,6 +9,8 @@ import { terminal } from "virtual:terminal";
 
 import axios from "axios";
 
+import { BACKEND_URL } from "../constants";
+
 function Analysis() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState<string[]>([]);
@@ -23,7 +25,7 @@ function Analysis() {
           },
         });
         await axios
-          .get("http://localhost:3000/days/users/" + user.sub.substring(6), {
+          .get(BACKEND_URL + "/days/users/" + user.sub.substring(6), {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

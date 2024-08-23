@@ -6,6 +6,8 @@ import axios from "axios";
 import { terminal } from "virtual:terminal";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { BACKEND_URL } from "../constants";
+
 function CreateInsight() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [categories, setCategories] = useState();
@@ -24,7 +26,7 @@ function CreateInsight() {
           },
         });
         await axios
-          .get("http://localhost:3000/categories", {
+          .get(BACKEND_URL + "/categories", {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -58,7 +60,7 @@ function CreateInsight() {
         };
         terminal.log(data);
         await axios
-          .post("http://localhost:3000/insights/create", data, {
+          .post(BACKEND_URL + "/insights/create", data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

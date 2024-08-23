@@ -79,7 +79,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain="dev-eodtdkvh7j57mfe5.us.auth0.com"
       clientId="RZNM0KOZ3y84qTovXEDYOplBpYPKDN5C"
       authorizationParams={{
-        redirect_uri: "http://localhost:5173/home",
+        redirect_uri: process.env.REACT_APP_REDIRECT_URI,
         audience: "mantraminder-backend-api",
       }}
     >

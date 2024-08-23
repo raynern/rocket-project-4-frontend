@@ -14,6 +14,8 @@ import { Tooltip } from "react-tooltip";
 
 import generateIcon from "../../icons";
 
+import { BACKEND_URL } from "../constants";
+
 function Insights() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState();
@@ -28,14 +30,11 @@ function Insights() {
           },
         });
         await axios
-          .get(
-            "http://localhost:3000/insights/summary/" + user.sub.substring(6),
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .get(BACKEND_URL + "/insights/summary/" + user.sub.substring(6), {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((res) => {
             terminal.log(res.data);
             setData(res.data);
@@ -55,7 +54,7 @@ function Insights() {
       };
       terminal.log(data);
       await axios
-        .delete("http://localhost:3000/insights/delete", { data: data })
+        .delete(BACKEND_URL + "/insights/delete", { data: data })
         .then((res) => {
           terminal.log(res);
           setRefresh(!refresh);

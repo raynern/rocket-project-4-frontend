@@ -11,6 +11,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Datepicker from "react-tailwindcss-datepicker";
 
+import { BACKEND_URL } from "../constants";
+
 function CreateDay() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [description, setDescription] = useState("");
@@ -49,14 +51,11 @@ function CreateDay() {
           },
         });
         await axios
-          .get(
-            "http://localhost:3000/insights/users/" + user.sub.substring(6),
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .get(BACKEND_URL + "/insights/users/" + user.sub.substring(6), {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((res) => {
             setInsights(res.data[0]);
           });
@@ -73,7 +72,7 @@ function CreateDay() {
           },
         });
         await axios
-          .get("http://localhost:3000/days/users/" + user.sub.substring(6), {
+          .get(BACKEND_URL + "/days/users/" + user.sub.substring(6), {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -127,7 +126,7 @@ function CreateDay() {
         };
         terminal.log(data);
         await axios
-          .post("http://localhost:3000/days/create", data, {
+          .post(BACKEND_URL + "/days/create", data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

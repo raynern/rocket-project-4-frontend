@@ -8,6 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { IoMdAdd } from "react-icons/io";
 
+import { BACKEND_URL } from "../constants";
+
 function Days() {
   const { getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState();
@@ -24,7 +26,7 @@ function Days() {
           },
         });
         await axios
-          .get("http://localhost:3000/days/users/" + user.sub.substring(6), {
+          .get(BACKEND_URL + "/days/users/" + user.sub.substring(6), {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -48,7 +50,7 @@ function Days() {
           },
         });
         let foundUser = await axios.get(
-          "http://localhost:3000/users/" + user.sub.substring(6),
+          BACKEND_URL + "/users/" + user.sub.substring(6),
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -58,7 +60,7 @@ function Days() {
         terminal.log("founduser is: ", foundUser.data);
         if (!foundUser.data) {
           await axios.post(
-            "http://localhost:3000/users/create",
+            BACKEND_URL + "/users/create",
             {
               id: user.sub.substring(6),
               name: user.name,
@@ -92,7 +94,7 @@ function Days() {
       };
       terminal.log(data);
       await axios
-        .delete("http://localhost:3000/days/delete", {
+        .delete(BACKEND_URL + "/days/delete", {
           data: data,
           headers: {
             Authorization: `Bearer ${accessToken}`,

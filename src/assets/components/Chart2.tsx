@@ -6,6 +6,8 @@ import { Tooltip } from "react-tooltip";
 import { useAuth0 } from "@auth0/auth0-react";
 import Guidance from "./guidance";
 
+import { BACKEND_URL } from "../constants";
+
 export default function Chart2() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [data, setData] = useState();
@@ -40,14 +42,11 @@ export default function Chart2() {
           },
         });
         await axios
-          .get(
-            "http://localhost:3000/insights/summary/" + user.sub.substring(6),
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .get(BACKEND_URL + "/insights/summary/" + user.sub.substring(6), {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((res) => {
             terminal.log(res.data);
             setData(res.data);
