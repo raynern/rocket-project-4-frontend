@@ -77,7 +77,7 @@ export default function Chart1({ month }: { month: string }) {
   const x = d3
     .scaleUtc()
     .domain(
-      data != null
+      data.length != 0
         ? [new Date(data[0].date), new Date(data[data.length - 1].date)]
         : [new Date("2023-01-01"), new Date("2024-01-01")]
     )
