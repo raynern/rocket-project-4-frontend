@@ -83,7 +83,8 @@ export default function Chart2() {
           d3
             .axisBottom(x)
             .ticks(data != null ? d3.max(data, (d) => d.daysCount) + 1 : 5)
-        )[(gx, x)]
+        ),
+    [gx, x]
   );
   useEffect(
     () =>
@@ -92,7 +93,8 @@ export default function Chart2() {
           .axisLeft(y)
           .tickValues([...Array(6).keys()])
           .tickFormat(d3.format(""))
-      )[(gy, y)]
+      ),
+    [gy, y]
   );
 
   const GuidanceWrapper = ({ bx, by, text, col }) => {

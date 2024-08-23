@@ -88,8 +88,8 @@ export default function Chart1({ month }: { month: string }) {
     .domain([-1, 5])
     .range([height - marginBottom, marginTop]);
 
-  const gx = useRef();
-  const gy = useRef();
+  const gx = useRef<SVGGElement>(null);
+  const gy = useRef<SVGGElement>(null);
 
   const line = d3
     .line()
@@ -110,7 +110,8 @@ export default function Chart1({ month }: { month: string }) {
       .selectAll("text")
       .attr("dx", "-2em")
       .attr("dy", ".6em")
-      .attr("transform", "rotate(-65)")[(gx, x)];
+      .attr("transform", "rotate(-65)"),
+      [gx, x];
   });
   useEffect(
     () =>
@@ -119,7 +120,8 @@ export default function Chart1({ month }: { month: string }) {
           .axisLeft(y)
           .tickValues([...Array(6).keys()])
           .tickFormat(d3.format(""))
-      )[(gy, y)]
+      ),
+    [gy, y]
   );
 
   return (

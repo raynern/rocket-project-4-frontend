@@ -4,11 +4,8 @@ import { TiLeaf } from "react-icons/ti";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { terminal } from "virtual:terminal";
-
 function Root() {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-  terminal.log(isAuthenticated);
 
   return (
     <>
