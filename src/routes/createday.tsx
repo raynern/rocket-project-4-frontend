@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { terminal } from "virtual:terminal";
-
 import Select from "react-select";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,7 +14,7 @@ import { BACKEND_URL } from "../constants";
 function CreateDay() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [description, setDescription] = useState("");
-  const [insights, setInsights] = useState();
+  const [insights, setInsights] = useState({ insights: [] });
   const [selectedInsights, setSelectedInsights] = useState([]);
   const [mood, setMood] = useState(2);
 
@@ -59,9 +57,7 @@ function CreateDay() {
           .then((res) => {
             setInsights(res.data[0]);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
     async function fetchDates() {
@@ -96,21 +92,17 @@ function CreateDay() {
                 : null
               : null;
             setDates(existingDates);
-
-            terminal.log(dates);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchDates();
   }, []);
 
   async function handleSubmit() {
     if (date.startDate == null || date.endDate == null || description == "") {
-      document.getElementById("error").showModal();
+      (document.getElementById("error") as HTMLDialogElement).showModal();
     } else {
-      document.getElementById("my_modal_1").showModal();
+      (document.getElementById("my_modal_1") as HTMLDialogElement).showModal();
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
@@ -124,7 +116,7 @@ function CreateDay() {
           entry: description,
           insights: selectedInsights.map((insight, i) => insight.value),
         };
-        terminal.log(data);
+
         await axios
           .post(BACKEND_URL + "/days/create", data, {
             headers: {
@@ -132,15 +124,14 @@ function CreateDay() {
             },
           })
           .then((res) => {
-            terminal.log(res);
             setTimeout(() => {
-              document.getElementById("my_modal_1").close();
+              (
+                document.getElementById("my_modal_1") as HTMLDialogElement
+              ).close();
               navigate("/days");
             }, 2000);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
   }
   return (
@@ -160,7 +151,6 @@ function CreateDay() {
             useRange={false}
             value={date != null ? date : null}
             onChange={(newvalue) => {
-              terminal.log(newvalue);
               setDate(newvalue);
             }}
           />
@@ -185,7 +175,7 @@ function CreateDay() {
             </span>
           </div>
           <Select
-            onChange={(e) => setSelectedInsights(e)}
+            onChange={(e) => setSelectedInsights([...e])}
             classNames={{
               container: (state) =>
                 "bg-base-100 rounded-btn border-transparent pe-10 pr-0 border-base-content/20",
@@ -268,7 +258,9 @@ function CreateDay() {
         <div className="modal-box flex flex-col justify-center items-center">
           <p>Date or description cannot be empty!</p>
           <button
-            onClick={() => document.getElementById("error").close()}
+            onClick={() =>
+              (document.getElementById("error") as HTMLDialogElement).close()
+            }
             className="btn btn-error mt-5"
           >
             Close

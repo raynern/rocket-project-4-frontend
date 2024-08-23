@@ -5,8 +5,6 @@ import Chart2 from "../assets/components/Chart2";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { terminal } from "virtual:terminal";
-
 import axios from "axios";
 
 import { BACKEND_URL } from "../constants";
@@ -31,17 +29,14 @@ function Analysis() {
             },
           })
           .then((res) => {
-            setData([
-              ...(new Set(
-                res.data[0].days.map((day: { date: Date }, i: number) =>
-                  day.date.toString().substring(0, 6)
-                )
-              ) as string[]),
-            ]);
+            const uniqueDates = new Set<string>(
+              res.data[0].days.map((day: { date: Date }, i: number) =>
+                day.date.toString().substring(0, 6)
+              )
+            );
+            setData([...uniqueDates]);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
   }, []);

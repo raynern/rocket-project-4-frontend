@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { terminal } from "virtual:terminal";
+
 import * as d3 from "d3";
 import { Tooltip } from "react-tooltip";
 import { useAuth0 } from "@auth0/auth0-react";
 import Guidance from "./guidance";
 
-import { BACKEND_URL } from "../constants";
+import { BACKEND_URL } from "../../constants";
 
 export default function Chart2() {
   const { user, getAccessTokenSilently } = useAuth0();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth * 0.8,
     height: 200,
@@ -48,12 +48,9 @@ export default function Chart2() {
             },
           })
           .then((res) => {
-            terminal.log(res.data);
             setData(res.data);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
     return () => window.removeEventListener("resize", handleResize);
@@ -75,8 +72,8 @@ export default function Chart2() {
     .domain([-1, 5])
     .range([height - marginBottom, marginTop]);
 
-  const gx = useRef();
-  const gy = useRef();
+  const gx = useRef<SVGGElement>(null);
+  const gy = useRef<SVGGElement>(null);
 
   useEffect(
     () =>

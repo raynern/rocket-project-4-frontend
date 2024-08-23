@@ -3,8 +3,6 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { terminal } from "virtual:terminal";
-
 import Select from "react-select";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,10 +13,13 @@ import { BACKEND_URL } from "../constants";
 
 function EditDay() {
   const [description, setDescription] = useState("");
-  const [insights, setInsights] = useState();
-  const [selectedInsights, setSelectedInsights] = useState();
+  const [insights, setInsights] = useState({ insights: [] });
+  const [selectedInsights, setSelectedInsights] = useState([]);
   const [mood, setMood] = useState(2);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [dates, setDates] = useState([]);
 
   const navigate = useNavigate();
@@ -35,7 +36,6 @@ function EditDay() {
         }))
       : [];
 
-  terminal.log(insightsPair);
   useEffect(() => {
     async function fetchInsights() {
       try {
@@ -53,9 +53,7 @@ function EditDay() {
           .then((res) => {
             setInsights(res.data[0]);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
 
     async function fetchData() {
@@ -72,7 +70,6 @@ function EditDay() {
             },
           })
           .then((res) => {
-            terminal.log(res.data);
             let existingDate = res.data.date
               .toString()
               .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
@@ -83,12 +80,6 @@ function EditDay() {
             setDescription(res.data.entry);
             setMood(res.data.score);
             setDescription(res.data.entry);
-            terminal.log(
-              res.data.applications.map((application, i) => ({
-                value: application.insight.id,
-                label: application.insight.description,
-              }))
-            );
             setSelectedInsights(
               res.data.applications.map((application, i) => ({
                 value: application.insight.id,
@@ -96,9 +87,7 @@ function EditDay() {
               }))
             );
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     async function fetchDates() {
       try {
@@ -125,12 +114,8 @@ function EditDay() {
                 };
               })
             );
-
-            terminal.log(dates);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchInsights();
     fetchData();
@@ -139,9 +124,9 @@ function EditDay() {
 
   async function handleSubmit() {
     if (date.startDate == null || date.endDate == null || description == "") {
-      document.getElementById("error").showModal();
+      (document.getElementById("error") as HTMLDialogElement).showModal();
     } else {
-      document.getElementById("my_modal_1").showModal();
+      (document.getElementById("my_modal_1") as HTMLDialogElement).showModal();
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
@@ -155,7 +140,6 @@ function EditDay() {
           entry: description,
           insights: selectedInsights.map((insight) => insight.value),
         };
-        terminal.log("we are submitting: ", data);
         await axios
           .put(BACKEND_URL + "/days/update", data, {
             headers: {
@@ -163,15 +147,14 @@ function EditDay() {
             },
           })
           .then((res) => {
-            terminal.log(res);
             setTimeout(() => {
-              document.getElementById("my_modal_1").close();
+              (
+                document.getElementById("my_modal_1") as HTMLDialogElement
+              ).close();
               navigate("/days");
             }, 2000);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
   }
 
@@ -194,7 +177,6 @@ function EditDay() {
             startFrom={date != null ? date.startDate : new Date()}
             value={date}
             onChange={(newvalue) => {
-              terminal.log(newvalue);
               setDate(newvalue);
             }}
           />
@@ -220,7 +202,7 @@ function EditDay() {
           </div>
           {selectedInsights != null ? (
             <Select
-              onChange={(e) => setSelectedInsights(e)}
+              onChange={(e) => setSelectedInsights([...e])}
               classNames={{
                 container: (state) =>
                   "bg-base-100 rounded-btn border-transparent pe-10 pr-0 border-base-content/20",
@@ -311,7 +293,9 @@ function EditDay() {
         <div className="modal-box flex flex-col justify-center items-center">
           <p>Date or description cannot be empty!</p>
           <button
-            onClick={() => document.getElementById("error").close()}
+            onClick={() =>
+              (document.getElementById("error") as HTMLDialogElement).close()
+            }
             className="btn btn-error mt-5"
           >
             Close

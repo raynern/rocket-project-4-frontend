@@ -1,15 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { terminal } from "virtual:terminal";
 import * as d3 from "d3";
 import { Tooltip } from "react-tooltip";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { BACKEND_URL } from "../constants";
+import { BACKEND_URL } from "../../constants";
 
 export default function Chart1({ month }: { month: string }) {
   const { user, getAccessTokenSilently } = useAuth0();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth * 0.8,
     height: 200,
@@ -50,7 +49,6 @@ export default function Chart1({ month }: { month: string }) {
               return a.date - b.date;
             });
             if (month != "") {
-              terminal.log("filtering for month: ", month);
               res.data[0].days = res.data[0].days.filter(
                 (day) => day.date.toString().substring(0, 6) == month
               );
@@ -64,9 +62,7 @@ export default function Chart1({ month }: { month: string }) {
               }))
             );
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
     return () => window.removeEventListener("resize", handleResize);
@@ -97,8 +93,8 @@ export default function Chart1({ month }: { month: string }) {
 
   const line = d3
     .line()
-    .x((d) => x(new Date(d.date)))
-    .y((d) => y(d.score))
+    .x((d: any) => x(new Date(d.date)))
+    .y((d: any) => y(d.score))
     .curve(d3.curveCatmullRom.alpha(0.5));
   useEffect(() => {
     void d3

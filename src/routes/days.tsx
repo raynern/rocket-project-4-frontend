@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { terminal } from "virtual:terminal";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -12,7 +11,7 @@ import { BACKEND_URL } from "../constants";
 
 function Days() {
   const { getAccessTokenSilently } = useAuth0();
-  const [data, setData] = useState();
+  const [data, setData] = useState({ days: [] });
   const [refresh, setRefresh] = useState(true);
 
   const { user } = useAuth0();
@@ -37,9 +36,7 @@ function Days() {
             });
             setData(res.data[0]);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
     async function createUser() {
@@ -57,7 +54,7 @@ function Days() {
             },
           }
         );
-        terminal.log("founduser is: ", foundUser.data);
+
         if (!foundUser.data) {
           await axios.post(
             BACKEND_URL + "/users/create",
@@ -73,11 +70,8 @@ function Days() {
             }
           );
         } else {
-          terminal.log("User already exists");
         }
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     createUser();
   }, [refresh]);
@@ -92,7 +86,7 @@ function Days() {
       let data = {
         dayId: parseInt(dayId),
       };
-      terminal.log(data);
+
       await axios
         .delete(BACKEND_URL + "/days/delete", {
           data: data,
@@ -101,12 +95,9 @@ function Days() {
           },
         })
         .then((res) => {
-          terminal.log(res);
           setRefresh(!refresh);
         });
-    } catch (error) {
-      terminal.log(error);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -118,60 +109,58 @@ function Days() {
 min-h-96
 "
         >
-          {data != null
-            ? data.days.map((day, i) => {
-                return (
-                  <div
-                    className="bg-blue-100 w-full carousel-item flex flex-col justify-evenly items-center m-5 px-5  rounded-xl shadow-md
+          {data.days.map((day, i) => {
+            return (
+              <div
+                className="bg-blue-100 w-full carousel-item flex flex-col justify-evenly items-center m-5 px-5  rounded-xl shadow-md
 "
+              >
+                <p className="text-xl">
+                  {day.date
+                    .toString()
+                    .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}
+                </p>
+                <div className="mx-auto w-4/5 divider " />
+                <p>
+                  <b>Entry:</b> {day.entry}
+                </p>
+                <p>
+                  <b>Mood:</b> {day.score}
+                </p>
+                <p>
+                  <b>Practiced:</b>{" "}
+                </p>
+                <ul className="list-disc">
+                  {day.applications.map((application, i) => {
+                    return (
+                      <>
+                        <li className="italic">
+                          {application.insight.description}
+                        </li>
+                      </>
+                    );
+                  })}
+                </ul>
+                <div className="mx-auto w-4/5 divider " />
+                <div className=" w-full sm:w-4/5 flex flex-row justify-evenly">
+                  <Link to={"/days/" + day.id}>
+                    <button className="btn btn-accent">
+                      <AiOutlineEdit />
+                      Edit
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(day.id)}
+                    className="btn btn-error"
                   >
-                    <p className="text-xl">
-                      {day.date
-                        .toString()
-                        .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}
-                    </p>
-                    <div className="mx-auto w-4/5 divider " />
-                    <p>
-                      <b>Entry:</b> {day.entry}
-                    </p>
-                    <p>
-                      <b>Mood:</b> {day.score}
-                    </p>
-                    <p>
-                      <b>Practiced:</b>{" "}
-                    </p>
-                    <ul className="list-disc">
-                      {day.applications.map((application, i) => {
-                        return (
-                          <>
-                            <li className="italic">
-                              {application.insight.description}
-                            </li>
-                          </>
-                        );
-                      })}
-                    </ul>
-                    <div className="mx-auto w-4/5 divider " />
-                    <div className=" w-full sm:w-4/5 flex flex-row justify-evenly">
-                      <Link to={"/days/" + day.id}>
-                        <button className="btn btn-accent">
-                          <AiOutlineEdit />
-                          Edit
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(day.id)}
-                        className="btn btn-error"
-                      >
-                        {" "}
-                        <AiOutlineDelete />
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            : null}
+                    {" "}
+                    <AiOutlineDelete />
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <Link to="/days/create">
           <button className="mt-5 btn btn-primary">

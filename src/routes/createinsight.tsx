@@ -3,14 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { terminal } from "virtual:terminal";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { BACKEND_URL } from "../constants";
 
 function CreateInsight() {
   const { user, getAccessTokenSilently } = useAuth0();
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState("");
   const [source, setSource] = useState("");
   const [category, setCategory] = useState(0);
@@ -34,18 +33,16 @@ function CreateInsight() {
           .then((res) => {
             setCategories(res.data);
           });
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
     fetchData();
   }, []);
 
   async function handleSubmit() {
     if (description == "" || source == "") {
-      document.getElementById("error").showModal();
+      (document.getElementById("error") as HTMLDialogElement).showModal();
     } else {
-      document.getElementById("my_modal_1").showModal();
+      (document.getElementById("my_modal_1") as HTMLDialogElement).showModal();
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
@@ -58,23 +55,19 @@ function CreateInsight() {
           source: source,
           categoryId: category,
         };
-        terminal.log(data);
+
         await axios
           .post(BACKEND_URL + "/insights/create", data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           })
-          .then((res) => {
-            terminal.log(res);
-          });
+          .then((res) => {});
         setTimeout(() => {
-          document.getElementById("my_modal_1").close();
+          (document.getElementById("my_modal_1") as HTMLDialogElement).close();
           navigate("/insights");
         }, 2000);
-      } catch (error) {
-        terminal.log(error);
-      }
+      } catch (error) {}
     }
   }
 
@@ -148,7 +141,9 @@ function CreateInsight() {
         <div className="modal-box flex flex-col justify-center items-center">
           <p>Insight description and source cannot be empty!</p>
           <button
-            onClick={() => document.getElementById("error").close()}
+            onClick={() =>
+              (document.getElementById("error") as HTMLDialogElement).close()
+            }
             className="btn btn-error mt-5"
           >
             Close
