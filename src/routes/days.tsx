@@ -111,75 +111,83 @@ function Days() {
 min-h-96
 "
         >
-          {data.days.map((day, i) => {
-            return (
-              <div
-                className="bg-blue-200 w-full carousel-item flex flex-col justify-between items-center m-5 px-5 py-4 rounded-3xl shadow-md
+          {data.days.length != 0 ? (
+            data.days.map((day, i) => {
+              return (
+                <div
+                  className="bg-blue-200 w-full carousel-item flex flex-col justify-between items-center m-5 px-5 py-4 rounded-3xl shadow-md h-50
 "
-              >
-                <div className="w-full">
-                  <div className=" w-full flex flex-row justify-between text-xl">
-                    <p>
-                      {day.date
-                        .toString()
-                        .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}
-                    </p>
-                    <div className="flex flex-row items-center space-x-1">
-                      <MdStar />
-                      <p>{day.score}</p>
+                >
+                  <div className="w-full">
+                    <div className=" w-full flex flex-row justify-between text-xl">
+                      <p>
+                        {day.date
+                          .toString()
+                          .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}
+                      </p>
+                      <div className="flex flex-row items-center space-x-1">
+                        <MdStar />
+                        <p>{day.score}</p>
+                      </div>
+                    </div>
+
+                    <div className="my-0 w-full divider " />
+                  </div>
+                  <div className="w-4/5 flex flex-col justify-center space-y-6">
+                    <p className="my-2  text-center">"{day.entry}"</p>
+
+                    <div className="space-y-2">
+                      <p>
+                        <b>Applied:</b>{" "}
+                      </p>
+                      <ul style={{ listStyle: "none" }} className="list-disc">
+                        {day.applications.map((application, i) => {
+                          return (
+                            <>
+                              <li className="italic flex flex-row space-x-2">
+                                <TiLeaf
+                                  className="shrink-0"
+                                  size="20"
+                                  min-width="20"
+                                />
+                                <p>{application.insight.description}</p>
+                              </li>
+                            </>
+                          );
+                        })}
+                      </ul>
                     </div>
                   </div>
 
-                  <div className="my-0 w-full divider " />
-                </div>
-                <div className="w-4/5 flex flex-col justify-center space-y-6">
-                  <p className="my-2  text-center">"{day.entry}"</p>
-
-                  <div className="space-y-2">
-                    <p>
-                      <b>Applied:</b>{" "}
-                    </p>
-                    <ul style={{ listStyle: "none" }} className="list-disc">
-                      {day.applications.map((application, i) => {
-                        return (
-                          <>
-                            <li className="italic flex flex-row space-x-2">
-                              <TiLeaf
-                                className="shrink-0"
-                                size="20"
-                                min-width="20"
-                              />
-                              <p>{application.insight.description}</p>
-                            </li>
-                          </>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="w-full">
-                  <div className="my-1 w-full divider " />
-                  <div className=" w-full flex flex-row justify-evenly">
-                    <Link to={"/days/" + day.id}>
-                      <button className="btn btn-accent">
-                        <AiOutlineEdit />
-                        Edit
+                  <div className="w-full">
+                    <div className="my-1 w-full divider " />
+                    <div className=" w-full flex flex-row justify-evenly">
+                      <Link to={"/days/" + day.id}>
+                        <button className="btn btn-accent">
+                          <AiOutlineEdit />
+                          <p className="hidden sm:block">Edit</p>
+                        </button>
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(day.id)}
+                        className="btn btn-error"
+                      >
+                        {" "}
+                        <AiOutlineDelete />
+                        <p className="hidden sm:block">Delete</p>
                       </button>
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(day.id)}
-                      className="btn btn-error"
-                    >
-                      {" "}
-                      <AiOutlineDelete />
-                      Delete
-                    </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div className="flex flex-col justify-center">
+              <p className="text-center italic">
+                No days to show, start by clicking Add day
+              </p>
+            </div>
+          )}
         </div>
         <Link to="/days/create">
           <button className="mt-5 mb-20 btn btn-primary">
