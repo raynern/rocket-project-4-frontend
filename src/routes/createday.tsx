@@ -136,7 +136,7 @@ function CreateDay() {
   }
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center">
+      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
         <p className="text-3xl">Create day</p>
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -199,13 +199,7 @@ function CreateDay() {
               As a result, how's your mood today?
             </span>
           </div>
-          <div className="rating rating-lg">
-            <input
-              type="radio"
-              onChange={() => setMood(0)}
-              name="rating-9"
-              className="rating-hidden"
-            />
+          <div className="rating rating-lg flex flex-row justify-around">
             <input
               type="radio"
               onChange={() => setMood(1)}

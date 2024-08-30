@@ -9,7 +9,7 @@ export default function NavBar() {
   const { logout } = useAuth0();
   return (
     <>
-      <div className="navbar bg-base-100 justify-between">
+      <div className="navbar box-border min-h-10 fixed z-10 bg-base-100 justify-between shadow-sm">
         <div className="ml-2 flex-1 space-x-5">
           <Link
             to="/days"

@@ -102,7 +102,7 @@ function Days() {
 
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center">
+      <div className="bg-base-200 h-full grow flex flex-col justify-center items-center">
         <p className="mb-5 text-3xl">Days</p>
         <div
           className=" carousel carousel-center bg-base-100 rounded-box w-10/12 sm:w-1/2 px-10

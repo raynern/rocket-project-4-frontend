@@ -43,12 +43,22 @@ function Insights() {
 
   async function handleDelete(id) {
     try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "mantraminder-backend-api",
+        },
+      });
       let data = {
         userId: user.sub.substring(6),
         insightId: parseInt(id),
       };
       await axios
-        .delete(BACKEND_URL + "/insights/delete", { data: data })
+        .delete(BACKEND_URL + "/insights/delete", {
+          data: data,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => {
           setRefresh(!refresh);
         });
@@ -57,12 +67,12 @@ function Insights() {
 
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center">
-        <p className="mb-5 text-3xl">Insights</p>
+      <div className="bg-base-200 flex flex-col justify-center items-center">
+        <p className="my-5 text-3xl">Insights</p>
         {(data ?? []).map((insight, i) => {
           return (
             <>
-              <div className="card bg-base-100 w-96 shadow-xl py-0 px-2 my-2">
+              <div className="card bg-base-100 w-5/6 sm:w-96 shadow-xl py-0 px-2 my-2">
                 <div className="card-body  p-3">
                   <h2 className="card-title ">{insight.insightDescription}</h2>
                   <p className="text-right">{insight.insightSource}</p>
@@ -96,7 +106,7 @@ function Insights() {
           );
         })}
         <Link to="/insights/create">
-          <button className="btn btn-primary mt-5">Create a new insight</button>
+          <button className="btn btn-primary my-5">Create a new insight</button>
         </Link>
         <Tooltip style={{ width: "50%" }} id="my-tooltip2" />
       </div>

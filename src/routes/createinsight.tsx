@@ -73,7 +73,7 @@ function CreateInsight() {
 
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center">
+      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
         <p className="text-3xl">Create insight</p>
         <label className="form-control w-full max-w-xs">
           <div className="label">

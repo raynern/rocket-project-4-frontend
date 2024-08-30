@@ -44,8 +44,10 @@ function Analysis() {
   return (
     <>
       <div className="bg-base-200 grow flex flex-col justify-center items-center space-y-3">
-        <p className="text-2xl font-medium">Monthly time series</p>
-        <label className="form-control w-full max-w-xs">
+        <p className="mt-8 text-lg sm:text-2xl  font-medium">
+          Monthly time series
+        </p>
+        <label className="w-5/6 form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">
               Filter by year, month (all by default)
@@ -70,7 +72,9 @@ function Analysis() {
         </label>
         <Chart1 month={month}></Chart1>
         <div className="divider" />
-        <p className="text-2xl font-medium">All time performance of insights</p>
+        <p className="text-lg sm:text-2xl font-medium">
+          All time performance of insights
+        </p>
         <Chart2></Chart2>
       </div>
     </>

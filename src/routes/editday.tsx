@@ -160,7 +160,7 @@ function EditDay() {
 
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center">
+      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
         <p className="text-3xl">Edit day</p>
 
         <label className="form-control w-full max-w-xs">
@@ -228,14 +228,7 @@ function EditDay() {
               As a result, how's your mood today?
             </span>
           </div>
-          <div className="rating rating-lg">
-            <input
-              type="radio"
-              onChange={() => setMood(0)}
-              name="rating-9"
-              className="rating-hidden"
-              checked={mood === 0}
-            />
+          <div className="rating rating-lg flex flex-row justify-around">
             <input
               type="radio"
               onChange={() => setMood(1)}
