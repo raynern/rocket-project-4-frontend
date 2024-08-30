@@ -73,8 +73,8 @@ function CreateInsight() {
 
   return (
     <>
-      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
-        <p className="text-3xl">Create insight</p>
+      <div className="bg-base-200 px-5 sm:h-full grow flex flex-col justify-center items-center">
+        <p className="text-3xl my-5">Create insight</p>
         <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">What was the insight?</span>
@@ -127,7 +127,9 @@ function CreateInsight() {
         </button>
 
         <Link to="/insights">
-          <button className="btn btn-secondary mt-5">Back to insights</button>
+          <button className="btn btn-secondary mt-5 mb-20">
+            Back to insights
+          </button>
         </Link>
       </div>
 

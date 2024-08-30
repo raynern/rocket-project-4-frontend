@@ -136,8 +136,8 @@ function CreateDay() {
   }
   return (
     <>
-      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
-        <p className="text-3xl">Create day</p>
+      <div className="bg-base-200 px-5 sm:h-full grow flex flex-col justify-center items-center">
+        <p className="text-3xl my-5">Create day</p>
         <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Date</span>
@@ -239,7 +239,7 @@ function CreateDay() {
         </button>
 
         <Link to="/days">
-          <button className="btn btn-secondary mt-5">Back to Days</button>
+          <button className="btn btn-secondary mt-5 mb-20">Back to Days</button>
         </Link>
       </div>
       <dialog id="my_modal_1" className="modal">

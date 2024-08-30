@@ -7,10 +7,9 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 function Portal() {
   return (
     <>
-      {/* <div className="flex flex-col h-screen"> */}
       <div className="bg-base-200">
         <NavBar></NavBar>
-        <div className="h-screen  pt-16 pb-10">
+        <div className="h-screen  pt-16">
           <Outlet />
         </div>
 

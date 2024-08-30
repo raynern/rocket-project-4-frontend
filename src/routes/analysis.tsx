@@ -43,7 +43,7 @@ function Analysis() {
 
   return (
     <>
-      <div className="bg-base-200 grow flex flex-col justify-center items-center space-y-3">
+      <div className="bg-base-200 grow flex flex-col justify-center items-center space-y-3 px-5 pb-20">
         <p className="mt-8 text-lg sm:text-2xl  font-medium">
           Monthly time series
         </p>

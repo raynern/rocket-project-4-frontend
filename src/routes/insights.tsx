@@ -106,7 +106,9 @@ function Insights() {
           );
         })}
         <Link to="/insights/create">
-          <button className="btn btn-primary my-5">Create a new insight</button>
+          <button className="btn btn-primary mt-5 mb-20">
+            Create a new insight
+          </button>
         </Link>
         <Tooltip style={{ width: "50%" }} id="my-tooltip2" />
       </div>

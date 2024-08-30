@@ -160,8 +160,8 @@ function EditDay() {
 
   return (
     <>
-      <div className="bg-base-200 px-5 h-full grow flex flex-col justify-center items-center">
-        <p className="text-3xl">Edit day</p>
+      <div className="bg-base-200 px-5 sm:h-full grow flex flex-col justify-center items-center">
+        <p className="text-3xl my-5">Edit day</p>
 
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -200,27 +200,26 @@ function EditDay() {
               What insights did you apply today?
             </span>
           </div>
-          {selectedInsights != null ? (
-            <Select
-              onChange={(e) => setSelectedInsights([...e])}
-              classNames={{
-                container: (state) =>
-                  "bg-base-100 rounded-btn border-transparent pe-10 pr-0 border-base-content/20",
-                control: (state) => "rounded-btn py-2 w-full max-w-xs px-1",
-                multiValue: (state) => "rounded",
-              }}
-              styles={{
-                multiValueLabel: (baseStyles, state) => ({
-                  ...baseStyles,
-                  whiteSpace: "normal",
-                }),
-              }}
-              closeMenuOnSelect={false}
-              isMulti
-              options={insightsPair}
-              defaultValue={selectedInsights}
-            ></Select>
-          ) : null}
+
+          <Select
+            onChange={(e) => setSelectedInsights([...e])}
+            classNames={{
+              container: (state) =>
+                "bg-base-100 rounded-btn border-transparent pe-10 pr-0 border-base-content/20",
+              control: (state) => "rounded-btn py-2 w-full max-w-xs px-1",
+              multiValue: (state) => "rounded",
+            }}
+            styles={{
+              multiValueLabel: (baseStyles, state) => ({
+                ...baseStyles,
+                whiteSpace: "normal",
+              }),
+            }}
+            closeMenuOnSelect={false}
+            isMulti
+            options={insightsPair}
+            defaultValue={selectedInsights}
+          ></Select>
         </label>
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -272,7 +271,7 @@ function EditDay() {
         </button>
 
         <Link to="/days">
-          <button className="btn btn-secondary mt-5">Back to Days</button>
+          <button className="btn btn-secondary mt-5 mb-20">Back to Days</button>
         </Link>
       </div>
 
